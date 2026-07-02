@@ -1,0 +1,155 @@
+<!DOCTYPE html><html>
+<head>
+  <title>Sinistering it</title>  <!-- Mobile scaling -->  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: white;
+    }
+
+    .banner {
+      position: relative;
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .banner::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+    }
+
+    .banner-title {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      font-size: 28px;
+      font-weight: bold;
+      z-index: 1;
+    }
+
+    /* Layout */
+    .container {
+      display: flex;
+      gap: 20px;
+      padding: 15px;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 200px;
+      background: #1a1a1a;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .sidebar h3 {
+      margin-top: 0;
+    }
+
+    .sidebar a {
+      display: block;
+      color: #4ea3ff;
+      margin: 6px 0;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Content */
+    .content {
+      flex: 1;
+      padding: 15px;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    img {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    /* 📱 MOBILE FIX */
+    @media (max-width: 700px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+      }
+
+      .banner {
+        height: 150px;
+      }
+
+      .banner-title {
+        font-size: 22px;
+      }
+    }
+  </style></head><body><div class="banner" id="banner">
+  <div class="banner-title">how sinister?</div>
+</div><div class="container">  <div class="sidebar" id="sidebar">
+    <h3>Sinister Songs</h3>
+  </div>  <div class="content" id="contentBox">
+    <h1 id="title">Main Page (Sinister) </h1>
+    <div id="article">Select a song.</div>
+  </div></div><script>
+  const pages = {
+
+    bigmisser: {
+      title: "Big Misser",
+      file: "misser.txt",
+      banner: "image-3.png",
+      color: "#2a0d2a"
+    }
+    
+    };
+
+  const sidebar = document.getElementById("sidebar");
+  const articleDiv = document.getElementById("article");
+  const title = document.getElementById("title");
+  const banner = document.getElementById("banner");
+  const contentBox = document.getElementById("contentBox");
+
+  // Create sidebar links
+  Object.keys(pages).forEach(key => {
+    const link = document.createElement("a");
+    link.textContent = pages[key].title;
+    link.onclick = () => loadPage(key);
+    sidebar.appendChild(link);
+  });
+
+  // Load page
+  function loadPage(key) {
+    const page = pages[key];
+
+    // Change banner
+    banner.style.backgroundImage = `url("${page.banner}")`;
+
+    // Change theme color
+    contentBox.style.background = page.color;
+
+    // Set title
+    title.textContent = page.title;
+
+    // Load content (no cache)
+    fetch(page.file + "?v=" + Date.now())
+      .then(res => res.text())
+      .then(text => {
+        articleDiv.innerHTML = text;
+      })
+      .catch(() => {
+        articleDiv.innerHTML = "Page not found.";
+      });
+  }
+</script></body>
+</html>
