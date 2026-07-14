@@ -4,9 +4,36 @@
 <meta charset="UTF-8">
 <title>SINISTER Player</title>
 </head>
-<body style="margin:0; background:#000; display: flex; justify-content:center; align-items: center; height:100vh;"> <video autoplay style="max-width:98%; max-height:90%;">
-<source src="Lord X - You Must Answer (Lyric Video) ¦ Sinister Minds (1080p_60fps_H264-128kbit_AAC).mp4" type="video/mp4">
-Your browser does not support the video tag.
+
+<body style="margin:0; background:#000; display:flex; justify-content:center; align-items:center; height:100vh;">
+
+<video id="player" autoplay controls style="max-width:98%; max-height:90%;">
+    Your browser does not support the video tag.
 </video>
+
+<script>
+const videos = [
+    "Lord X ft. Majin - Minds (Lyric Video) ¦ Sinister Minds (1080p_60fps_H264-128kbit_AAC).mp4",
+    "Lord X - You Must Answer (Lyric Video) ¦ Sinister Minds (1080p_60fps_H264-128kbit_AAC).mp4",
+    "misser.mp4",
+    "Majin ft. Boundless A. Games - Sinister (Lyric Video) ¦ Sinister Minds (1080p_60fps_H264-128kbit_AAC).mp4",
+    "Lord X - I Miss The Quiet (Lyric Video) ¦ Sinister Minds (1080p_60fps_H264-128kbit_AAC).mp4"
+];
+
+let lastVideo = localStorage.getItem("lastVideo");
+let randomVideo;
+
+do {
+    randomVideo = videos[Math.floor(Math.random() * videos.length)];
+} while (videos.length > 1 && randomVideo === lastVideo);
+
+localStorage.setItem("lastVideo", randomVideo);
+
+const player = document.getElementById("player");
+player.src = randomVideo;
+player.load();
+player.play();
+</script>
+
 </body>
 </html>
